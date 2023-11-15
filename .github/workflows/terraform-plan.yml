@@ -15,7 +15,14 @@ jobs:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v2
-
+      
+    - name: Configure AWS credentials from Test account
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AwsAccessKeyId }}
+        aws-secret-access-key: ${{ secrets.AwsSecretAccessKey }}
+        aws-region: eu-central-1
+        
     # Install the preferred version of Terraform CLI 
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v3
@@ -25,22 +32,12 @@ jobs:
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
       id: init
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AwsAccessKeyId }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AwsSecretAccessKey }}
-        AWS_DEFAULT_REGION: 'eu-central-1'
-        AWS_DEFAULT_OUTPUT: 'json'
       run: terraform init -backend-config=./conf/dev/backend.tvars -reconfigure
 
 
     # Run a terraform plan for pull requests only
     - name: Terraform Plan
       id: plan
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AwsAccessKeyId }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AwsSecretAccessKey }}
-        AWS_DEFAULT_REGION: 'eu-central-1'
-        AWS_DEFAULT_OUTPUT: 'json'
       if: github.event_name == 'pull_request'
       run: terraform plan -no-color
     
