@@ -1,4 +1,4 @@
-resource "aws_instance" "this" {
+resource "aws_instance" "yaya" {
   ami                     = "ami-0669b163befffbdfc"
   instance_type           = "t2.micro"
   availability_zone       = "eu-central-1a" 
