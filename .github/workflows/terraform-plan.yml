@@ -38,6 +38,5 @@ jobs:
     # Run a terraform plan for pull requests only
     - name: Terraform Plan
       id: plan
-      if: github.event_name == 'pull_request'
       run: terraform plan -no-color
     
