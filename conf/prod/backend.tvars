@@ -1,0 +1,4 @@
+    bucket                 = "yaya-bucket-backend"
+    region                 = "eu-central-1"
+    key                    = "backend.tfstate"
+    dynamodb_table         = "yayadynamodb"
